@@ -1,0 +1,27 @@
+{%extends 'index.html'%}
+{% load tree %}
+{%block content%}
+	<h1>{% if seo.header %}{{ seo.header|safe }}{% else %}{{ header|safe }}{% endif %}</h1>
+	<div id='news_list'>
+		<h3>Категории</h3>
+			<div>
+				{% for category in categories %}
+					<div style='width: 185px; border: 1px solid silver; padding: 15px; margin: 15px; display: inline-block;'>
+						<a href='{{category.get_absolute_url}}'>
+							<div style='background: url({{category.img.thumb_url}}) no-repeat center center; width: 185px; height: 181px;'></div>
+							<center>{{category.name}}</center>
+						</a>
+					</div>
+				{% endfor %}
+			</div>
+
+			<!--ul>
+			{% for category in categories %}
+				<li><a href='{{category.get_absolute_url}}'>{{category.name}}</a><br>
+				<img src='{{category.img.thumb_url}}'>
+					{% tree category 'magazine_tree.html' %}
+				</li>
+			{% endfor %}
+			</ul-->
+	</div>
+{%endblock%}

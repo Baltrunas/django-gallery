@@ -1,0 +1,41 @@
+{%extends 'index.html'%}
+{%block content%}
+<h1>Корзина &rarr; {{ user.username }}</h1>
+<div>
+{% if error %}<h3>{{ error }}</h3>{% endif %}
+
+{% if pay_id %}
+<table width='100%'>
+	{% for item in basket %}
+		<tr>
+			<form method='POST' action='/magazine/checkout/'> 
+			{% csrf_token %}
+				<td>#{{ item.id }}</td>
+				<td>{{ item.price.name }}</td>
+				<td>{{ item.get_status_display }}</td>
+				<td>{{ item.total_price }}</td>
+				<td>{{ item.order.id }}</td>
+				<td style='width:100px'>
+					<input type='hidden' name='basket_id' value='{{ item.id }}'>
+					<input name='count' type='number' min='0' value='{{ item.count }}' style='width:80px'>
+				</td>
+				<td style='width:150px'><input name='save' type="submit" value="Сохранить" style='margin: 0px;'></td>
+				<td style='width:150px'><input name='delet' type="submit" value="Удалить" style='margin: 0px;'></td>
+			</form>
+		</tr>
+	{% endfor %}
+</table>
+<p>Итого: <b>{{total_price}}</b></p>
+<form id=pay name=pay method="POST" action="https://merchant.webmoney.ru/lmi/payment.asp"> 
+	<input type="hidden" name="LMI_PAYMENT_AMOUNT" value="{{total_price}}">
+	<input type="hidden" name="LMI_PAYMENT_DESC_BASE64" value="{{basket_desc}}"> 
+	<input type="hidden" name="LMI_PAYMENT_NO" value="{{pay_id}}">
+	<input type="hidden" name="LMI_PAYEE_PURSE" value="R913931750187">
+	<input type="hidden" name="LMI_SIM_MODE" value="0"> 
+	<input type="submit" value="Оплатить!" style='float: none; width: 200px; margin-bottom: 0px;'>
+</form>
+{% else %}
+<h3>Ваша корзина пуста!</h3>
+{% endif %}
+</div>
+{%endblock%}
