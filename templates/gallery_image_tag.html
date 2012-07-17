@@ -1,0 +1,13 @@
+{% if image = 404 %}
+<b class='error'>{ Image #{{id}} does not exist }</b>
+{% else %}
+	{% if size = 'thumb' %}
+		<img src='{{image.img.thumb_url}}' class='gallery' id='gallery-image-thumb-{{id}}'>
+	{% elif size = 'original' %}
+		<a href='{{image.img.url}}' class='colorbox-{{id}}'><img src='{{image.img.url}}' class='gallery' id='gallery-image-{{id}}'></a>
+		<script>$(document).ready(function(){$(".colorbox-{{id}}").colorbox({rel:'colorbox-{{id}}', transition:"none", maxWidth:"75%", maxHeight:"75%"});});</script>
+	{% else %}
+		<a href='{{image.img.url}}' class='colorbox-{{id}}'><img src='{{image.thumb}}' class='gallery' id='gallery-by-size-{{id}}'></a>
+		<script>$(document).ready(function(){$(".colorbox-{{id}}").colorbox({rel:'colorbox-{{id}}', transition:"none", maxWidth:"75%", maxHeight:"75%"});});</script>
+	{% endif %}
+{% endif %}

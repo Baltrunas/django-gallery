@@ -11,9 +11,9 @@ class PriceInline(admin.TabularInline):
 	extra = 0
 	
 class CategoryAdmin(admin.ModelAdmin):
-	list_display = ('name', 'url', 'public', 'order', 'image_preview')
+	list_display = ('display', 'slug', 'url', 'order', 'main', 'public', 'image_preview')
 	search_fields = ('img', 'name', 'url', 'public')
-	list_editable = ('public', 'order')
+	list_editable = ['order', 'main', 'public']
 	inlines = [PriceInline]
 	class Media:
 		js = ('tiny_mce/tiny_mce.js', 'tiny_mce/textareas.js',)
@@ -26,9 +26,6 @@ class ImageAdmin(admin.ModelAdmin):
 	list_filter = ('category', 'public',)
 	class Media:
 		js = ('tiny_mce/tiny_mce.js', 'tiny_mce/textareas.js',)
-
-# class PropertyValueInline(admin.StackedInline):
-# class PropertyInline(admin.TabularInline):
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Image, ImageAdmin)

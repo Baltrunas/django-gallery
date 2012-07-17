@@ -12,13 +12,27 @@ from django.utils.translation import ugettext as _
 # from context import context
 context = {}
 
-def category_detail(request, full_url, page=0):
-	category = get_object_or_404(Category, full_url=full_url)
-	image_list = Image.objects.filter(public=True, category=category.id).order_by('-created')
+def category_list(request):
+	categories = Category.objects.filter(parent=None, public=True).order_by('-created_at')
+	images = Image.objects.filter(public=True, category=None).order_by('-created_at')
 
-	context['category'] = category
-	context['image_list'] = image_list
+	context['categories'] = categories
+	context['images'] = images
+	context['title'] = 'Gallery'
+	context['header'] = 'Gallery'
+	context['keywords'] = 'Gallery'
+	context['description'] = 'Gallery'
+	return render_to_response('gallery_category.html', context, context_instance=RequestContext(request))
+
+def category_detail(request, url, page=0):
+	category = get_object_or_404(Category, url=url)
+	categories = Category.objects.filter(parent=category.pk, public=True).order_by('-created_at')
+	images = Image.objects.filter(public=True, category=category.pk).order_by('-created_at')
+
+	context['categories'] = categories
+	context['images'] = images
 	context['title'] = category.name
+	context['header'] = category.name
 	context['keywords'] = category.name
 	context['description'] = category.name
-	return render_to_response('gallery_detail.html', context, context_instance=RequestContext(request))
+	return render_to_response('gallery_category.html', context, context_instance=RequestContext(request))

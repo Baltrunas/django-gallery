@@ -9,11 +9,19 @@ from gallery.fields import ThumbImageField
 # Локализации
 from django.utils.translation import ugettext_lazy as _
 
+from django.utils.safestring import SafeUnicode
+
+# Configuration
+category_thumb_width  = 185
+category_thumb_height = 185
+image_thumb_width     = 150
+image_thumb_height    = 150
+
 class Category(models.Model):
 	name = models.CharField(verbose_name=_('Name'), max_length=255)
-	slug = models.SlugField(verbose_name=_('URL'), max_length=128, unique=True, help_text=_('URL Simbols only slug'))
+	slug = models.SlugField(verbose_name=_('Slug'), max_length=128, unique=True)
 	url = models.SlugField(verbose_name=_('Full URL'), max_length=512, editable=False)
-	parent = models.ForeignKey('self', verbose_name=_('childs'), null=True, blank=True, db_index=True, related_name='child_set')
+	parent = models.ForeignKey('self', verbose_name=_('Parent'), null=True, blank=True, related_name='childs')
 	order = models.PositiveSmallIntegerField(verbose_name=_('Order'), default=500)
 	
 	description = models.TextField(
@@ -24,8 +32,8 @@ class Category(models.Model):
 	)
 	
 	img = ThumbImageField(
-		w = 185,
-		h = 185,
+		w = category_thumb_width,
+		h = category_thumb_height,
 		verbose_name=_('Image'),
 		upload_to=lambda instance, filename: 'img/gallery/%s/index.%s' % (instance.url, filename.split('.')[len(filename.split('.'))-1].lower()),
 		blank=True
@@ -44,59 +52,61 @@ class Category(models.Model):
 	image_preview.short_description = _('Image')
 	image_preview.allow_tags = True
 
-	def puth (self, id):
-		puth = Category.objects.get(pk=id).name
-		if not Category.objects.get(pk=id).parent:
-			return puth
+	def url_puth (self, this):
+		if this.parent:
+			return self.url_puth(this.parent) + '/' + this.slug
 		else:
-			return self.puth(Category.objects.get(pk=Category.objects.get(pk=id).parent.id).id) + u' → ' + puth
+			return this.slug
 
-	def url_puth (self, id):
-		url_puth = Category.objects.get(pk=id).url
-		if not Category.objects.get(pk=id).parent:
-			return url_puth
-		else:
-			return self.url_puth(Category.objects.get(pk=Category.objects.get(pk=id).parent.id).id) + '/' + url_puth
+
+	def display(self):
+		return '&nbsp;' * (len(self.url.split('/')) -1) * 6 + self.name
+	display.short_description = _('Category')
+	display.allow_tags = True
 
 	def save(self, *args, **kwargs):
+		self.url = self.url_puth(self)
 		super(Category, self).save(*args, **kwargs)
-		# self.full_url = '/' + self.url_puth(self.id) + '/'
-		
-		self.full_url = self.url_puth(self.id)
-		super(Category, self).save(*args, **kwargs)
+		for child in self.childs.all():
+			child.save()
 
+	@models.permalink
 	def get_absolute_url(self):
-		return '/gallery/' + self.full_url + '/'
+		return ('gallery_category', (), {'url': self.url})
 	
 	def __unicode__(self):
-		return self.puth(self.id)
+		return SafeUnicode('&nbsp;' * (len(self.url.split('/')) -1) * 6 + self.name)
 
 	class Meta:
-		ordering = ['order', 'full_url']
+		ordering = ['order', 'url']
 		verbose_name = _('Category')
 		verbose_name_plural = _('Categories')
 
 class Image(models.Model):
 	name = models.CharField(verbose_name=_('Name'), max_length=255)
-	category = models.ForeignKey(Category, verbose_name=_('Category'))
-	order = models.PositiveSmallIntegerField(verbose_name=_('Order'), default=500)
+	category = models.ForeignKey(Category, verbose_name=_('Category'), null=True, blank=True)
 	
+	def img_puth(instance, filename):
+		if instance.category:
+			puth = 'img/gallery/%s/%s.%s' % (instance.category.url, md5(str(datetime.now()) + filename).hexdigest(), filename.split('.')[len(filename.split('.'))-1].lower())
+		else:
+			puth = 'img/gallery/%s.%s' % (md5(str(datetime.now()) + filename).hexdigest(), filename.split('.')[len(filename.split('.'))-1].lower())
+		return puth
+
+	img = ThumbImageField(
+		w = image_thumb_width,
+		h = image_thumb_height,
+		verbose_name=_('Image'),
+		upload_to=img_puth
+	)
+
 	description = models.TextField(
 		verbose_name=_('Text'),
 		help_text=_('''<a class="btn" href="#" onclick="tinyMCE.execCommand('mceToggleEditor', false, 'id_text');">ON \ OFF</a>'''),
-		blank=True,
-		editable=False,
-		default='-'
+		blank=True
 	)
 
-	img = ThumbImageField(
-		w = 150,
-		h = 150,
-		verbose_name=_('Image'),
-		upload_to=lambda instance, filename: 'img/gallery/%s/%s.%s' % (instance.category.url, md5(str(datetime.now()) + filename).hexdigest(), filename.split('.')[len(filename.split('.'))-1].lower()),
-		blank=True,
-		help_text = 'height: 467px and width: 700px'
-	)
+	order = models.PositiveSmallIntegerField(verbose_name=_('Order'), default=500, null=True, blank=True)
 	
 	def image_preview(self):
 		if self.img:
