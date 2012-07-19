@@ -4,18 +4,25 @@ register = template.Library()
 from gallery.models import Image
 
 @register.simple_tag()
-def gallery_image(id, size='thumb'):
+def gallery_image(id, size='thumb', type='image'):
 	t = template.loader.get_template('gallery_image_tag.html')
 
 	if Image.objects.filter(pk=id).exists():
 		image = Image.objects.get(pk=id)
 		if size == 'thumb':
-			image.thumb = image.img.thumb_url
+			width = 150
+			height = 150
+
+			image.url = image.img.thumb_url
 		elif size == 'original':
-			image.thumb = image.img.url
+			image.url = image.img.url
 		else:
 			size = size.split('x')
-			image.thumb = image.img.thumb(int(size[0]), int(size[1]))
+			width = size[0]
+			height = size[1]
+			image.url = image.img.thumb(int(size[0]), int(size[1]))
+		if type == 'url':
+			return image.url
 	else:
-		image = 404
-	return t.render(template.Context({'image': image, 'id': id}))
+		image = 404	
+	return t.render(template.Context({'image': image, 'id': id, 'size':size, 'type': type, 'width': width, 'height': height}))

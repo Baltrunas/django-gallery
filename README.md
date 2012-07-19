@@ -6,17 +6,27 @@ Image gallery for django.
 * ./manage.py syncdb
 
 # Futures
+* Optimization
+* Custom template for tags
+* New templates
+* README.md
 * recreate thumb
-* thumb by size
 * image filter
-	* gallery_catgory id true true
+
 
 # Changelog
+## 2012.07.19
+### Add
+* templatetag gallery_catgory id size type ('thumb' or 'original' or 'WIDTHxHEIGHT')
+
+### Fix
+* templatetag gallery_image id size type
+
+
 ## 2012.07.17
 ### Add
 * colorbox
-* templatetag gallery_image id size ('thumb' or 'original' or '__width__x__height__')
-
+* templatetag gallery_image id size ('thumb' or 'original' or 'WIDTHxHEIGHT')
 
 ## 2012.07.15
 ### Add
@@ -31,8 +41,8 @@ Image gallery for django.
 * Optimized category save method.
 * Remove category puth method.
 
-	цветотон
+<!-- 	цветотон
 		перешитать цвета
 		#f12459	- оригинальный
 		#ff2266	- ближайший cдвоеный
-		#FF3366	- http://www.artlebedev.ru/tools/colors/ безопасные цвета
+		#FF3366	- http://www.artlebedev.ru/tools/colors/ безопасные цвета -->

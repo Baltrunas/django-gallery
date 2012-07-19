@@ -1,0 +1,10 @@
+{% if category = 404 %}
+<b class='error'>{ Category #{{id}} does not exist }</b>
+{% else %}
+	{% load gallery_image %}
+	<div class='b-gallery-images'>
+		{% for image in category.images.all %}
+			{% gallery_image image.pk size type %}
+		{% endfor %}
+	</div>
+{% endif %}

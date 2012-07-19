@@ -84,7 +84,7 @@ class Category(models.Model):
 
 class Image(models.Model):
 	name = models.CharField(verbose_name=_('Name'), max_length=255)
-	category = models.ForeignKey(Category, verbose_name=_('Category'), null=True, blank=True)
+	category = models.ForeignKey(Category, verbose_name=_('Category'), related_name='images', null=True, blank=True)
 	
 	def img_puth(instance, filename):
 		if instance.category:

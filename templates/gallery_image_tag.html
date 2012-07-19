@@ -1,13 +1,25 @@
 {% if image = 404 %}
 <b class='error'>{ Image #{{id}} does not exist }</b>
 {% else %}
-	{% if size = 'thumb' %}
-		<img src='{{image.img.thumb_url}}' class='gallery' id='gallery-image-thumb-{{id}}'>
-	{% elif size = 'original' %}
-		<a href='{{image.img.url}}' class='colorbox-{{id}}'><img src='{{image.img.url}}' class='gallery' id='gallery-image-{{id}}'></a>
-		<script>$(document).ready(function(){$(".colorbox-{{id}}").colorbox({rel:'colorbox-{{id}}', transition:"none", maxWidth:"75%", maxHeight:"75%"});});</script>
-	{% else %}
-		<a href='{{image.img.url}}' class='colorbox-{{id}}'><img src='{{image.thumb}}' class='gallery' id='gallery-by-size-{{id}}'></a>
-		<script>$(document).ready(function(){$(".colorbox-{{id}}").colorbox({rel:'colorbox-{{id}}', transition:"none", maxWidth:"75%", maxHeight:"75%"});});</script>
+	{% if type = 'image' %}
+		<a href='{{image.img.url}}'>
+			<img src='{{image.url}}' class='gallery-image' id='gallery-image-{{id}}' alt='{{image.name}}'>
+		</a>
+	{% elif type = 'image-not-link' %}
+		<img src='{{image.url}}' class='gallery-image' id='gallery-image-{{id}}' alt='{{image.name}}'>
+	{% elif type = 'image-label' %}
+		<div class='b-gallery-image'>
+			<a href='{{image.img.url}}' class='gallery-full-image' id='gallery-full-image-{{id}}'>
+				<img src="{{image.url}}" alt='{{image.name}}'><br>
+				<b>{{image.name}}</b>
+			</a>			
+		</div>
+	{% elif type = 'image-label-box' %}
+		<div class='b-gallery-image' style='width: {{width}}px; height: {{height|add:'+20'}}px;'>
+			<a href='{{image.img.url}}' class='gallery-full-image' id='gallery-full-image-{{id}}'>
+				<div style="background: url({{image.url}}) no-repeat center center; width: {{width}}px; height: {{height}}px; margin: 0 auto; display: block;"></div>
+				<b>{{image.name}}</b>
+			</a>			
+		</div>
 	{% endif %}
 {% endif %}
