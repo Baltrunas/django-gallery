@@ -41,7 +41,7 @@ Image gallery for django.
 * Optimized category save method.
 * Remove category puth method.
 
-<!-- 	цветотон
+<!-- 	цветотон!
 		перешитать цвета
 		#f12459	- оригинальный
 		#ff2266	- ближайший cдвоеный
