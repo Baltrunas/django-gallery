@@ -1,5 +1,5 @@
 # django-gallery
-Image gallery for django.
+Images gallery for django.
 
 # Install
 * Add 'gallery', to INSTALLED_APPS
