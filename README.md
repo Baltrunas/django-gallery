@@ -11,8 +11,8 @@ Image gallery for django.
 * New templates
 * README.md
 * recreate thumb
+* default from settings
 * image filter
-
 
 # Changelog
 ## 2012.07.19
