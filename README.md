@@ -4,6 +4,7 @@ Images gallery for django.
 # Install
 * Add 'gallery', to INSTALLED_APPS
 * ./manage.py syncdb
+* url(r'^gallery/', include('gallery.urls')),
 
 # Futures
 * Optimization
