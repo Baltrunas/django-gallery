@@ -3,9 +3,10 @@ from django import template
 register = template.Library()
 from gallery.models import Image
 
+
 @register.simple_tag()
 def gallery_image(id, size='thumb', type='image'):
-	t = template.loader.get_template('gallery_image_tag.html')
+	t = template.loader.get_template('gallery/image_tag.html')
 
 	if Image.objects.filter(pk=id).exists():
 		image = Image.objects.get(pk=id)
@@ -24,5 +25,5 @@ def gallery_image(id, size='thumb', type='image'):
 		if type == 'url':
 			return image.url
 	else:
-		image = 404	
-	return t.render(template.Context({'image': image, 'id': id, 'size':size, 'type': type, 'width': width, 'height': height}))
+		image = 404
+	return t.render(template.Context({'image': image, 'id': id, 'size': size, 'type': type, 'width': width, 'height': height}))

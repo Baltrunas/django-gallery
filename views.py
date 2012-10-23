@@ -7,10 +7,11 @@ from gallery.models import *
 from django.template import RequestContext
 
 # Локализации
-from django.utils.translation import ugettext as _
+# from django.utils.translation import ugettext as _
 
 # from context import context
 context = {}
+
 
 def category_list(request):
 	categories = Category.objects.filter(parent=None, public=True).order_by('-created_at')
@@ -22,7 +23,8 @@ def category_list(request):
 	context['header'] = 'Gallery'
 	context['keywords'] = 'Gallery'
 	context['description'] = 'Gallery'
-	return render_to_response('gallery_category.html', context, context_instance=RequestContext(request))
+	return render_to_response('gallery/category.html', context, context_instance=RequestContext(request))
+
 
 def category_detail(request, url, page=0):
 	category = get_object_or_404(Category, url=url)
@@ -35,4 +37,4 @@ def category_detail(request, url, page=0):
 	context['header'] = category.name
 	context['keywords'] = category.name
 	context['description'] = category.name
-	return render_to_response('gallery_category.html', context, context_instance=RequestContext(request))
+	return render_to_response('gallery/category.html', context, context_instance=RequestContext(request))

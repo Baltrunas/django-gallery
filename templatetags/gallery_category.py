@@ -3,9 +3,10 @@ from django import template
 register = template.Library()
 from gallery.models import Category
 
+
 @register.simple_tag()
 def gallery_category(id, size='150x150', type='image-label-box'):
-	t = template.loader.get_template('gallery_category_tag.html')
+	t = template.loader.get_template('gallery/category_tag.html')
 	if Category.objects.filter(pk=id).exists():
 		category = Category.objects.get(pk=id)
 		width = size.split('x')[0]

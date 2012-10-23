@@ -6,6 +6,22 @@ Images gallery for django.
 * url(r'^gallery/', include('gallery.urls')),
 * ./manage.py syncdb
 
+```html
+	<link rel="stylesheet" href="/static/colorboxcolorbox.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script src="/static/colorbox/jquery.colorbox.js"></script>
+	<script>
+		$(document).ready(function(){
+			$("a").colorbox({rel:'colorbox', slideshow:true});
+			$("#click").click(function(){ 
+				$('#click').css({"background-color":"#f00", "color":"#fff", "cursor":"inherit"}).text("Open this window again and this messagwill still be 	here.");
+				return false;
+			});
+		});
+	</script>
+```
+
+
 # Futures
 * New templates
 * Optimization
