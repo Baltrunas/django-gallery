@@ -1,29 +1,23 @@
 {%extends 'base.html'%}
 {%block content%}
 	<!--{{category.name}}-->
-	
 <div id="portfolio">
-<div id="slide"><div id="loader"></div>
-<div id="pictures" class="pics">
-	
-	{% for image in image_list %}
-		<div class='imgc'>
-			<img src='{{image.img.url}}' title='{{image.name}}' alt='{{image.name}}' height='467'>
-			<p style='width: 550px;'>&ndash; {{image.name}}</p>
+	<div id="slide">
+		<div id="loader"></div>
+			<div id="pictures" class="pics">
+				{% for image in image_list %}
+					<div class='imgc'>
+						<img src='{{image.img.url}}' title='{{image.name}}' alt='{{image.name}}' height='467'>
+						<p style='width: 550px;'>&ndash; {{image.name}}</p>
+					</div>
+				{% endfor %}
+			</div>
 		</div>
-	{% endfor %}
-	
-	
-</div>
-</div>
-	
+
 	<ul id="navigation">
 		<li class="previous"><a href="#" id="prev2">&larr;</a></li>
 		<li><span id='number'>{{ image_list.count }}</span> / {{ image_list.count }}</li>
 		<li class="next"><a href="#" id="next2" onclick="$('#pictures').html(corrent + 1)">&rarr;</a></li>
 	</ul>
-	
 </div>
-
-	
 {%endblock%}

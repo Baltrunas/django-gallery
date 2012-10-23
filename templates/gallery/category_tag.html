@@ -1,8 +1,8 @@
 {% if category = 404 %}
-<b class='error'>{ Category #{{id}} does not exist }</b>
+	<b class='error'>{ Category #{{id}} does not exist }</b>
 {% else %}
 	{% load gallery_image %}
-	<div class='b-gallery-images'>
+	<div class='gallery-images-list'>
 		{% for image in category.images.all %}
 			{% gallery_image image.pk size type %}
 		{% endfor %}

@@ -21,6 +21,13 @@ Images gallery for django.
 	</script>
 ```
 
+# Use tags
+
+```
+	{% load gallery_category %}
+	{% gallery_category 2 '200x130' %}
+```
+
 
 # Futures
 * New templates
@@ -34,7 +41,7 @@ Images gallery for django.
 # Changelog
 ## 2012.07.19
 ### Add
-* templatetag gallery_catgory id size type ('thumb' or 'original' or 'WIDTHxHEIGHT')
+* templatetag gallery_category id size type ('thumb' or 'original' or 'WIDTHxHEIGHT')
 
 ### Fix
 * templatetag gallery_image id size type
