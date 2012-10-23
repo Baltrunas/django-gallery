@@ -3,13 +3,13 @@ Images gallery for django.
 
 # Install
 * Add 'gallery', to INSTALLED_APPS
-* ./manage.py syncdb
 * url(r'^gallery/', include('gallery.urls')),
+* ./manage.py syncdb
 
 # Futures
-* Optimization
-* Custom template for tags
 * New templates
+* Optimization
+* Custom template for templatetags
 * README.md
 * recreate thumb
 * default from settings
