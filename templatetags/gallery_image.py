@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*
-from django.template import Library
-from django.template import loader
-register = Library()
+from django import template
+register = template.Library()
 
 from gallery.models import Image
 
 
 @register.simple_tag()
 def gallery_image(id, size='thumb', type='image'):
-	template = loader.get_template('gallery/image_tag.html')
+	tpl = template.loader.get_template('gallery/image_tag.html')
 	try:
 		image = Image.objects.get(pk=id)
 		if size == 'thumb':
@@ -26,4 +25,4 @@ def gallery_image(id, size='thumb', type='image'):
 			return image.url
 	except:
 		image = 404
-	return template.render(template.Context({'image': image, 'id': id, 'size': size, 'type': type, 'width': width, 'height': height}))
+	return tpl.render(template.Context({'image': image, 'id': id, 'size': size, 'type': type, 'width': width, 'height': height}))

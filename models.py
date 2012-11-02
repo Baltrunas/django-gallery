@@ -2,13 +2,11 @@
 from django.db import models
 from datetime import datetime
 
-from md5 import md5
-# Поля
+from hashlib import md5
+# Fields
 from gallery.fields import ThumbImageField
-
-# Локализации
+# Translation
 from django.utils.translation import ugettext_lazy as _
-
 from django.utils.safestring import SafeUnicode
 
 # Configuration
@@ -25,12 +23,7 @@ class Category(models.Model):
 	parent = models.ForeignKey('self', verbose_name=_('Parent'), null=True, blank=True, related_name='childs')
 	order = models.PositiveSmallIntegerField(verbose_name=_('Order'), default=500)
 
-	description = models.TextField(
-		verbose_name=_('Description'),
-		help_text=_('''<a class="btn" href="#" onclick="tinyMCE.execCommand('mceToggleEditor', false, 'id_text');">ON \ OFF</a>'''),
-		null=True,
-		blank=True
-	)
+	description = models.TextField(verbose_name=_('Description'), null=True, blank=True)
 
 	img = ThumbImageField(
 		w=category_thumb_width,
@@ -101,11 +94,7 @@ class Image(models.Model):
 		upload_to=img_puth
 	)
 
-	description = models.TextField(
-		verbose_name=_('Text'),
-		help_text=_('''<a class="btn" href="#" onclick="tinyMCE.execCommand('mceToggleEditor', false, 'id_text');">ON \ OFF</a>'''),
-		blank=True
-	)
+	description = models.TextField(verbose_name=_('Description'), blank=True)
 
 	order = models.PositiveSmallIntegerField(verbose_name=_('Order'), default=500, null=True, blank=True)
 

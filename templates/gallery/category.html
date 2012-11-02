@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% block content %}
 	<h1>
 		{% if seo.header %}
@@ -10,7 +11,7 @@
 
 	{% if categories %}
 		<div class='gallery-category-list'>
-		<h2>Категории</h2>
+		{% if images %}<h2>{% trans "Categories" %}</h2>{% endif %}
 			{% for category in categories %}
 				<figure>
 					{% if category.img %}
@@ -27,7 +28,7 @@
 
 	{% if images %}
 		<div class='gallery-images-list'>
-		<h2>Изображения</h2>
+		{% if categories %}<h2>{% trans "Images" %}</h2>{% endif %}
 			{% for image in images %}
 				<figure>
 					{% if image.img %}

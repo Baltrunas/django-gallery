@@ -39,6 +39,12 @@ Images gallery for django.
 * image filter
 
 # Changelog
+## 2012.11.02
+### Add
+* Locale translation
+### Fix
+* Template optimization 
+
 ## 2012.07.19
 ### Add
 * templatetag gallery_category id size type ('thumb' or 'original' or 'WIDTHxHEIGHT')

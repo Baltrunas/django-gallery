@@ -6,8 +6,8 @@ from gallery.models import *
 
 from django.template import RequestContext
 
-# Локализации
-# from django.utils.translation import ugettext as _
+# Translation
+from django.utils.translation import ugettext as _
 
 # from context import context
 context = {}
@@ -19,10 +19,10 @@ def category_list(request):
 
 	context['categories'] = categories
 	context['images'] = images
-	context['title'] = 'Gallery'
-	context['header'] = 'Gallery'
-	context['keywords'] = 'Gallery'
-	context['description'] = 'Gallery'
+	context['title'] = _('Gallery')
+	context['header'] = _('Gallery')
+	context['keywords'] = _('Gallery')
+	context['description'] = _('Gallery')
 	return render_to_response('gallery/category.html', context, context_instance=RequestContext(request))
 
 
