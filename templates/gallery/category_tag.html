@@ -3,7 +3,7 @@
 {% else %}
 	{% load gallery_image %}
 	<div class='gallery-images-list'>
-		{% for image in category.images.all %}
+		{% for image in category_images %}
 			{% gallery_image image.pk size type %}
 		{% endfor %}
 	</div>

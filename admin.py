@@ -17,10 +17,10 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 class ImageAdmin(admin.ModelAdmin):
-	list_display = ('name', 'public', 'category', 'image_preview')
-	search_fields = ('name', 'public', 'category')
-	list_editable = ('public',)
-	list_filter = ('category', 'public',)
+	list_display = ('name', 'public', 'main', 'category', 'image_preview')
+	search_fields = ('name', 'public', 'main', 'category')
+	list_editable = ('public', 'main')
+	list_filter = ('category', 'public', 'main')
 
 
 admin.site.register(Category, CategoryAdmin)
