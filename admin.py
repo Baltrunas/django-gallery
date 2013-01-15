@@ -19,7 +19,7 @@ class CategoryAdmin(admin.ModelAdmin):
 class ImageAdmin(admin.ModelAdmin):
 	list_display = ('name', 'public', 'main', 'category', 'image_preview')
 	search_fields = ('name', 'public', 'main', 'category')
-	list_editable = ('public', 'main')
+	list_editable = ('public', 'main', 'category')
 	list_filter = ('category', 'public', 'main')
 
 
