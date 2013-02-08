@@ -3,22 +3,51 @@ Images gallery for django.
 
 # Install
 * Add 'gallery', to INSTALLED_APPS
-* ./manage.py syncdb
 * url(r'^gallery/', include('gallery.urls')),
+* ./manage.py syncdb
+
+```html
+	<link rel="stylesheet" href="/static/colorboxcolorbox.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script src="/static/colorbox/jquery.colorbox.js"></script>
+	<script>
+		$(document).ready(function(){
+			$("a").colorbox({rel:'colorbox', slideshow:true});
+			$("#click").click(function(){ 
+				$('#click').css({"background-color":"#f00", "color":"#fff", "cursor":"inherit"}).text("Open this window again and this messagwill still be 	here.");
+				return false;
+			});
+		});
+	</script>
+```
+
+# Use tags
+
+```
+	{% load gallery_category %}
+	{% gallery_category 2 '200x130' %}
+```
+
 
 # Futures
-* Optimization
-* Custom template for tags
 * New templates
+* Optimization
+* Custom template for templatetags
 * README.md
 * recreate thumb
 * default from settings
 * image filter
 
 # Changelog
+## 2012.11.02
+### Add
+* Locale translation
+### Fix
+* Template optimization 
+
 ## 2012.07.19
 ### Add
-* templatetag gallery_catgory id size type ('thumb' or 'original' or 'WIDTHxHEIGHT')
+* templatetag gallery_category id size type ('thumb' or 'original' or 'WIDTHxHEIGHT')
 
 ### Fix
 * templatetag gallery_image id size type

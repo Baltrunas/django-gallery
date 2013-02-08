@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+	<h1>
+		{% if seo.header %}
+			{{ seo.header }}
+		{% else %}
+			{{ header }}
+		{% endif %}
+	</h1>
+
+	{% if categories %}
+		<div class='gallery-category-list'>
+		{% if images %}<h2>{% trans "Categories" %}</h2>{% endif %}
+			{% for category in categories %}
+				<figure>
+					{% if category.img %}
+						<a href='{{category.get_absolute_url}}'>
+							<p><img src="{{category.img.thumb_url}}" alt="{{category.name}}"></p>
+							<figcaption>{{category.name}}</figcaption>
+						</a>
+					{% endif %}
+				</figure>
+			{% endfor %}
+		</div>
+	{% endif %}
+
+
+	{% if images %}
+		<div class='gallery-images-list'>
+		{% if categories %}<h2>{% trans "Images" %}</h2>{% endif %}
+			{% for image in images %}
+				<figure>
+					{% if image.img %}
+						<a href='{{image.img.url}}' class='colorbox'>
+							<p><img src="{{image.img.thumb_url}}" alt="{{image.name}}" style='width: 176px;'></p>
+							<figcaption>{{image.name}}</figcaption>
+						</a>
+					{% endif %}
+				</figure>
+			{% endfor %}
+		</div>
+	{% endif %}
+{% endblock %}
