@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+{% load thumbnail %}
+
+
+{% block content %}
+	<figure class='b-detail'>
+		{% thumbnail image.img "x900" as im %}
+			<img src="{{ im.url }}" alt="{{ image.name }}" width='900'>
+		{% endthumbnail %}
+
+		<figcaption>
+			<h1>{{ image.name }}</h1>
+			<p>{{ image.description|safe }}</p>
+
+			<p>
+				<big>{% trans "Info" %}</big>
+				<br><b>{% trans "Category" %}:</b> {{ image.category }}
+				<br><b>{% trans "Created At" %}:</b> {{ image.created_at }}
+				<br><b>{% trans "Updated At" %}:</b> {{ image.updated_at }}
+			</p>
+		</figcaption>
+	</figure>
+{% endblock %}
+

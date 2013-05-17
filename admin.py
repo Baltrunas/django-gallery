@@ -10,14 +10,14 @@ class PriceInline(admin.TabularInline):
 
 
 class CategoryAdmin(admin.ModelAdmin):
-	list_display = ('display', 'slug', 'url', 'order', 'main', 'public', 'image_preview')
+	list_display = ('display', 'slug', 'url', 'order', 'main', 'public')
 	search_fields = ('img', 'name', 'url', 'public')
 	list_editable = ['order', 'main', 'public']
 	inlines = [PriceInline]
 
 
 class ImageAdmin(admin.ModelAdmin):
-	list_display = ('name', 'public', 'main', 'category', 'image_preview')
+	list_display = ('name', 'public', 'main', 'category')
 	search_fields = ('name', 'public', 'main', 'category')
 	list_editable = ('public', 'main', 'category')
 	list_filter = ('category', 'public', 'main')

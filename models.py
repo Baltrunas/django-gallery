@@ -3,8 +3,7 @@ from django.db import models
 from datetime import datetime
 
 from hashlib import md5
-# Fields
-from gallery.fields import ThumbImageField
+
 # Translation
 from django.utils.translation import ugettext_lazy as _
 from django.utils.safestring import SafeUnicode
@@ -25,26 +24,20 @@ class Category(models.Model):
 
 	description = models.TextField(verbose_name=_('Description'), null=True, blank=True)
 
-	img = ThumbImageField(
-		w=category_thumb_width,
-		h=category_thumb_height,
-		verbose_name=_('Image'),
-		upload_to=lambda instance, filename: 'img/gallery/%s/index.%s' % (instance.url, filename.split('.')[len(filename.split('.')) - 1].lower()),
-		blank=True
-	)
+	img = models.ImageField(verbose_name=_('Image'), upload_to=lambda instance, filename: 'img/gallery/%s/index.%s' % (instance.url, filename.split('.')[len(filename.split('.')) - 1].lower()), blank=True)
 
 	main = models.BooleanField(verbose_name=_('Main'))
 	public = models.BooleanField(verbose_name=_('Public'), default=True)
 	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
 	updated_at = models.DateTimeField(verbose_name=_('Updated At'), auto_now=True)
 
-	def image_preview(self):
-		if self.img:
-			return '<img src="%s" width="100">' % self.img.thumb_url
-		else:
-			return '(none)'
-	image_preview.short_description = _('Image')
-	image_preview.allow_tags = True
+	# def image_preview(self):
+	# 	if self.img:
+	# 		return '<img src="%s" width="100">' % self.img.thumb_url
+	# 	else:
+	# 		return '(none)'
+	# image_preview.short_description = _('Image')
+	# image_preview.allow_tags = True
 
 	def url_puth(self, this):
 		if this.parent:
@@ -87,29 +80,26 @@ class Image(models.Model):
 			puth = 'img/gallery/%s.%s' % (md5(str(datetime.now()) + filename).hexdigest(), filename.split('.')[len(filename.split('.')) - 1].lower())
 		return puth
 
-	img = ThumbImageField(
-		w=image_thumb_width,
-		h=image_thumb_height,
-		verbose_name=_('Image'),
-		upload_to=img_puth
-	)
-
+	img = models.ImageField(verbose_name=_('Image'), upload_to=img_puth)
 	description = models.TextField(verbose_name=_('Description'), blank=True)
-
 	order = models.PositiveSmallIntegerField(verbose_name=_('Order'), default=500, null=True, blank=True)
 
-	def image_preview(self):
-		if self.img:
-			return '<img src="%s" width="150">' % self.img.thumb_url
-		else:
-			return '(none)'
-	image_preview.short_description = _('Image')
-	image_preview.allow_tags = True
+	# def image_preview(self):
+	# 	if self.img:
+	# 		return '<img src="%s" width="150">' % self.img.thumb_url
+	# 	else:
+	# 		return '(none)'
+	# image_preview.short_description = _('Image')
+	# image_preview.allow_tags = True
 
 	main = models.BooleanField(verbose_name=_('Main'))
 	public = models.BooleanField(verbose_name=_('Public'), default=True)
 	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
 	updated_at = models.DateTimeField(verbose_name=_('Updated At'), auto_now=True)
+
+	@models.permalink
+	def get_absolute_url(self):
+		return ('item_detail', (), {'id': self.id})
 
 	def __unicode__(self):
 		return self.name
