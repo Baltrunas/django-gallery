@@ -28,6 +28,11 @@ Images gallery for django.
 	{% gallery_category 2 '200x130' %}
 ```
 
+```
+	{% load gallery_image %}
+	{% gallery_image 2 '200x130' %}
+```
+
 
 # Futures
 * New templates
