@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load thumbnail %}
+
 {% block content %}
 	<h1>
 		{% if seo.header %}
@@ -8,6 +10,8 @@
 			{{ header }}
 		{% endif %}
 	</h1>
+
+{% comment %}
 
 	{% if categories %}
 		<div class='gallery-category-list'>
@@ -25,18 +29,32 @@
 		</div>
 	{% endif %}
 
+{% endcomment %}
 
 	{% if images %}
-		<div class='gallery-images-list'>
-		{% if categories %}<h2>{% trans "Images" %}</h2>{% endif %}
+		<div class='b-gallery-images-list'>
+		{% if categories %}
+			<h2 class='b-gallery-images-list__title'>{% trans "Images" %}</h2>
+		{% endif %}
 			{% for image in images %}
-				<figure>
-					{% if image.img %}
-						<a href='{{image.img.url}}' class='colorbox'>
-							<p><img src="{{image.img.thumb_url}}" alt="{{image.name}}" style='width: 176px;'></p>
-							<figcaption>{{image.name}}</figcaption>
-						</a>
-					{% endif %}
+				<figure class='b-gallery-images-item'>
+					<a href='{{ image.get_absolute_url }}' class='b-gallery-images-item__link'>
+						{% if image.img|is_portrait %}
+							{% thumbnail image.img "300x200" crop="top" as im %}
+								<img src="{{ im.url }}" alt="{{ image.name }}" class='b-gallery-images-item__img'>
+							{% endthumbnail %}
+						{% else %}
+							{% thumbnail image.img "300x200" crop="center" as im %}
+								<img src="{{ im.url }}" alt="{{ image.name }}" class='b-gallery-images-item__img'>
+							{% endthumbnail %}
+						{% endif %}
+						<figcaption class='b-gallery-images-item-info'>
+							<h5 class='b-gallery-images-item-info__title'>{{image.name}}</h5>
+							<p class='b-gallery-images-item-info__description'>
+								{{image.description}}
+							</p>
+						</figcaption>
+					</a>
 				</figure>
 			{% endfor %}
 		</div>
