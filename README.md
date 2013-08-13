@@ -11,41 +11,16 @@ Images gallery for django.
 * ./manage.py syncdb
 
 ```html
-	<link rel="stylesheet" href="/static/colorboxcolorbox.css">
-	<script src="/static/colorbox/jquery.colorbox.js"></script>
-	<script>
-		$(document).ready(function(){
-			$("a").colorbox({rel:'colorbox', slideshow:true});
-			$("#click").click(function(){ 
-				$('#click').css({"background-color":"#f00", "color":"#fff", "cursor":"inherit"}).text("Open this window again and this messagwill still be 	here.");
-				return false;
-			});
-		});
-	</script>
 ```
 
 # Use tags
+```
+{% load gallery_tags %}
+{{ gallery_category 1 }}
+{{ gallery_image 1 }}
+```
 
-```
-	{% load gallery %}
-	{% gallery_category 2 '200x130' %}
-```
 # Plan
-	- Перейти к использованию sorl
-		+ item_detail.html
-		- category.html
-		- category_tag.html
-		- detail.html
-		- image_tag.html
-
-	Шаблоны
-		Слайдеры
-		Одно изображение
-		HTML 5
-
-	- Перевести все стили в bem
-	- Вынести все стили и js и images в static
-
 	- Добавать к категориям выбор шаблона.
 		Шаблон это модель, содержашяя текст шаблона наследуется от файла
 		Один из шаблонов назначается как дефолтный
@@ -60,6 +35,11 @@ Images gallery for django.
 			created_at
 			updated_at
 
+	Шаблоны
+		Слайдеры
+		Одно изображение
+		HTML 5
+
 	Добавить к изображениям технические данные
 		дата снимка
 		дата обрабоки
@@ -69,7 +49,6 @@ Images gallery for django.
 		исо
 		камера
 	- Настройка указания заголовков и хлебных крошек?
-
 	- Add image_preview
 
 	В галлереи конечным является изображение
@@ -79,8 +58,7 @@ Images gallery for django.
 Для категории пометка проект
 Для шаблона тип категория проект или изображение
 Количество просмотра для фото, галлереи, всех изображений в галлереи
-Свойства и тара метры через модель
->>>>>>> 40d4b85a5319ee32595841906f027eee70a14489
+Свойства и параметры через модель
 
 # Futures
 * New templates

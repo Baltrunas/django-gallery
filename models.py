@@ -8,12 +8,6 @@ from hashlib import md5
 from django.utils.translation import ugettext_lazy as _
 from django.utils.safestring import SafeUnicode
 
-# Configuration
-category_thumb_width = 185
-category_thumb_height = 185
-image_thumb_width = 150
-image_thumb_height = 150
-
 
 class Category(models.Model):
 	name = models.CharField(verbose_name=_('Name'), max_length=255)
@@ -24,20 +18,19 @@ class Category(models.Model):
 
 	description = models.TextField(verbose_name=_('Description'), null=True, blank=True)
 
-	img = models.ImageField(verbose_name=_('Image'), upload_to=lambda instance, filename: 'img/gallery/%s/index.%s' % (instance.url, filename.split('.')[len(filename.split('.')) - 1].lower()), blank=True)
+	def upload_to(instance, filename):
+		file_ext = filename.split('.')[len(filename.split('.')) - 1].lower()
+		puth = 'gallery/%s/index.%s' % (instance.url, file_ext)
+		return puth
 
+	img = models.ImageField(verbose_name=_('Image'), upload_to=upload_to)
+
+	special = models.BooleanField(verbose_name=_('Special'))
 	main = models.BooleanField(verbose_name=_('Main'))
+
 	public = models.BooleanField(verbose_name=_('Public'), default=True)
 	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
 	updated_at = models.DateTimeField(verbose_name=_('Updated At'), auto_now=True)
-
-	# def image_preview(self):
-	# 	if self.img:
-	# 		return '<img src="%s" width="100">' % self.img.thumb_url
-	# 	else:
-	# 		return '(none)'
-	# image_preview.short_description = _('Image')
-	# image_preview.allow_tags = True
 
 	def url_puth(self, this):
 		if this.parent:
@@ -46,7 +39,8 @@ class Category(models.Model):
 			return this.slug
 
 	def display(self):
-		return '&nbsp;' * (len(self.url.split('/')) - 1) * 6 + self.name
+		display_str = SafeUnicode('&nbsp;' * (len(self.url.split('/')) - 1) * 6 + self.name)
+		return display_str
 	display.short_description = _('Category')
 	display.allow_tags = True
 
@@ -61,7 +55,7 @@ class Category(models.Model):
 		return ('gallery_category', (), {'url': self.url})
 
 	def __unicode__(self):
-		return SafeUnicode('&nbsp;' * (len(self.url.split('/')) - 1) * 6 + self.name)
+		return self.display()
 
 	class Meta:
 		ordering = ['order', 'url']
@@ -69,42 +63,58 @@ class Category(models.Model):
 		verbose_name_plural = _('Categories')
 
 
-class Image(models.Model):
+class Item(models.Model):
 	name = models.CharField(verbose_name=_('Name'), max_length=255)
-	category = models.ForeignKey(Category, verbose_name=_('Category'), related_name='images', null=True, blank=True)
+	slug = models.SlugField(verbose_name=_('Slug'), max_length=128, unique=True)
+	category = models.ForeignKey(Category, verbose_name=_('Category'), related_name='items', null=True, blank=True)
 
-	def img_puth(instance, filename):
+
+	ITEM_TYPE_CHOICES = (
+		('image', _('Image')),
+		('video', _('Video')),
+	)
+	item_type = models.CharField(verbose_name=_('Item Type'), max_length=20, choices=ITEM_TYPE_CHOICES)
+
+	def upload_to(instance, filename):
 		if instance.category:
-			puth = 'img/gallery/%s/%s.%s' % (instance.category.url, md5(str(datetime.now()) + filename).hexdigest(), filename.split('.')[len(filename.split('.')) - 1].lower())
+			file_folder = instance.category.url + '/' + instance.item_type
 		else:
-			puth = 'img/gallery/%s.%s' % (md5(str(datetime.now()) + filename).hexdigest(), filename.split('.')[len(filename.split('.')) - 1].lower())
+			file_folder = instance.item_type
+
+		file_ext = filename.split('.')[len(filename.split('.')) - 1].lower()
+		file_name = instance.slug
+
+		puth = 'gallery/%s/%s.%s' % (file_folder, file_name, file_ext)
 		return puth
 
-	img = models.ImageField(verbose_name=_('Image'), upload_to=img_puth)
+	item_file = models.FileField(verbose_name=_('File'), upload_to=upload_to)
+
 	description = models.TextField(verbose_name=_('Description'), blank=True)
 	order = models.PositiveSmallIntegerField(verbose_name=_('Order'), default=500, null=True, blank=True)
 
-	# def image_preview(self):
-	# 	if self.img:
-	# 		return '<img src="%s" width="150">' % self.img.thumb_url
-	# 	else:
-	# 		return '(none)'
-	# image_preview.short_description = _('Image')
-	# image_preview.allow_tags = True
-
 	main = models.BooleanField(verbose_name=_('Main'))
+
 	public = models.BooleanField(verbose_name=_('Public'), default=True)
 	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
 	updated_at = models.DateTimeField(verbose_name=_('Updated At'), auto_now=True)
 
 	@models.permalink
 	def get_absolute_url(self):
-		return ('item_detail', (), {'id': self.id})
+		return ('item_detail', (), {'url': self.category.url, 'id': self.id})
 
 	def __unicode__(self):
 		return self.name
 
 	class Meta:
 		ordering = ['order', 'name']
-		verbose_name = _('Image')
-		verbose_name_plural = _('Images')
+		verbose_name = _('Gallery Item')
+		verbose_name_plural = _('Gallery Items')
+
+	# def image_preview(self):
+	# 	if self.img:
+	# 		img_thumbnail = get_thumbnail(self.img, '100x100', crop='center', quality=99)
+	# 		return '<img src="%s" width="100">' % img_thumbnail.url
+	# 	else:
+	# 		return '(none)'
+	# image_preview.short_description = _('Image')
+	# image_preview.allow_tags = True

@@ -1,0 +1,13 @@
+{% load i18n %}
+
+{% if categories %}
+	<div class='b-gallery-categories'>
+		{% if items %}
+			<h2 class='b-gallery-categories__sub_title'>{% trans "Categories" %}</h2>
+		{% endif %}
+
+		{% for category in categories %}
+			{% include 'gallery/__blocks/categories-list-item.html' %}
+		{% endfor %}
+	</div>
+{% endif %}

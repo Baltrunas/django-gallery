@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
 
 from gallery.models import Category
-from gallery.models import Image
+from gallery.models import Item
 
 from django.template import RequestContext
 
@@ -14,33 +14,29 @@ context = {}
 
 
 def category_list(request):
-	categories = Category.objects.filter(parent=None, public=True).order_by('-created_at')
-	images = Image.objects.filter(public=True, category=None).order_by('-created_at')
+	categories = Category.objects.filter(parent=None, public=True, special=False).order_by('order')
+	items = Item.objects.filter(public=True, category=None).order_by('order')
 
 	context['categories'] = categories
-	context['images'] = images
+	context['items'] = items
 	context['title'] = _('Gallery')
 	context['header'] = _('Gallery')
-	context['keywords'] = _('Gallery')
-	context['description'] = _('Gallery')
 	return render_to_response('gallery/category.html', context, context_instance=RequestContext(request))
 
 
 def category_detail(request, url, page=0):
 	category = get_object_or_404(Category, url=url)
-	categories = Category.objects.filter(parent=category.pk, public=True).order_by('-created_at')
-	images = Image.objects.filter(public=True, category=category.pk).order_by('-created_at')
+	categories = Category.objects.filter(parent=category.pk, public=True, special=False).order_by('order')
+	items = Item.objects.filter(public=True, category=category.pk).order_by('order')
 
 	context['categories'] = categories
-	context['images'] = images
+	context['items'] = items
 	context['title'] = category.name
 	context['header'] = category.name
-	context['keywords'] = category.name
-	context['description'] = category.name
 	return render_to_response('gallery/category.html', context, context_instance=RequestContext(request))
 
 
-def item_detail(request, id):
-	context['image'] = get_object_or_404(Image, id=id)
-	context['title'] = context['image']
-	return render_to_response('gallery/item_detail.html', context, context_instance=RequestContext(request))
+def item_detail(request, url, id):
+	context['item'] = get_object_or_404(Item, id=id)
+	context['title'] = context['item'].name
+	return render_to_response('gallery/item.html', context, context_instance=RequestContext(request))
