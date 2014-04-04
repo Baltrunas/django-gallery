@@ -1,13 +1,45 @@
-{% load i18n %}
+{% load thumbnail %}
 
+<div class='b-gallery-items m-{{ category.slug }}'>
 
-{% if items %}
-	<div class='b-gallery-items-list'>
-	{% if categories %}
-		<h2 class='b-gallery-items-list__title'>{% trans "Images" %}</h2>
+{% for item in items %}
+
+<figure class='b-gallery-item m-{{ item.item_type }}'
+	style='
+{% if category.width %}width: {{ category.width }}px;{% endif %}
+{% if category.height %}height: {{ category.height }}px;{% endif %}'>
+
+	{% if item.item_type == 'image' %}
+		<a href='{{ item.item_file.url }}' class='b-gallery-item__zoom_link' rel='m-{{ category.slug }}'>
+			{# {% if item.item_file|is_portrait %} #}
+				{# {% thumbnail item.item_file size as im %} #}
+					{# <img src="{{ im.url }}" alt="{{ item.name }}" class='b-gallery-item__img' style="padding:{{ im|margin:size }}"> #}
+				{# {% endthumbnail %} #}
+			{# {% else %} #}
+				{% thumbnail item.item_file category.size crop="center" as im %}
+					<img src="{{ im.url }}" alt="{{ item.name }}" class='b-gallery-item__img'>
+				{% endthumbnail %}
+			{# {% endif %} #}
+		</a>
+	{% else %}
+		<embed
+			src="/static/gallery/gddflvplayer.swf" flashvars="?&autoplay=false&sound=70&buffer=2&vdo={{ item.item_file.url }}"
+			width="300"
+			height="200"
+			allowFullScreen="true"
+			quality="best"
+			wmode="transparent"
+			allowScriptAccess="always"
+			pluginspage="http://www.macromedia.com/go/getflashplayer"  type="application/x-shockwave-flash">
+		</embed>
 	{% endif %}
-		{% for item in items %}
-			{% include 'gallery/__blocks/items-list-item.html' %}
-		{% endfor %}
-	</div>
-{% endif %}
+	<a href='{{ item.get_absolute_url }}' class='b-gallery-item__caption_link'>
+		<figcaption class='b-gallery-item__caption'>
+			{{ item.name }}
+		</figcaption>
+	</a>
+</figure>
+
+{% endfor %}
+
+</div>

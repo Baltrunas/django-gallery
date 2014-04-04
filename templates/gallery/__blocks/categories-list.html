@@ -1,13 +1,16 @@
-{% load i18n %}
+{% load thumbnail %}
 
-{% if categories %}
-	<div class='b-gallery-categories'>
-		{% if items %}
-			<h2 class='b-gallery-categories__sub_title'>{% trans "Categories" %}</h2>
-		{% endif %}
+<div class='b-gallery-categories'>
+{% for category in categories %}
 
-		{% for category in categories %}
-			{% include 'gallery/__blocks/categories-list-item.html' %}
-		{% endfor %}
-	</div>
-{% endif %}
+<figure class='b-gallery-category'>
+	<a href='{{ category.get_absolute_url }}' class='b-gallery-category__link'>
+		{% thumbnail category.img "300x200" crop="top" as im %}
+			<img src="{{ im.url }}" alt="{{ category.name }}" class='b-gallery-category__img'>
+		{% endthumbnail %}
+		<figcaption class='b-gallery-category__caption'>{{ category.name }}</figcaption>
+	</a>
+</figure>
+
+{% endfor %}
+</div>

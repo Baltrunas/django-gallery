@@ -21,20 +21,6 @@ Images gallery for django.
 ```
 
 # Plan
-	- Добавать к категориям выбор шаблона.
-		Шаблон это модель, содержашяя текст шаблона наследуется от файла
-		Один из шаблонов назначается как дефолтный
-		Если ни один из шаблонов не назначен шаблоном по умолчанию то
-		используется файл
-			name
-			base
-			description
-			html-text
-			default
-			public
-			created_at
-			updated_at
-
 	Шаблоны
 		Слайдеры
 		Одно изображение
@@ -68,51 +54,3 @@ Images gallery for django.
 * recreate thumb
 * default from settings
 * image filter
-
-# Changelog
-## 2013.03.24
-### Add
-* Image detail page
-### Changes
-* Thumbnail to sorl.thumbnail
-### Delete
-* colorbox
-* fields.py
-
-## 2012.11.02
-### Add
-* Locale translation
-### Fix
-* Template optimization 
-
-## 2012.07.19
-### Add
-* templatetag gallery_category id size type ('thumb' or 'original' or 'WIDTHxHEIGHT')
-
-### Fix
-* templatetag gallery_image id size type
-
-
-## 2012.07.17
-### Add
-* colorbox
-* templatetag gallery_image id size ('thumb' or 'original' or 'WIDTHxHEIGHT')
-
-## 2012.07.15
-### Add
-* Category
-* Image
-* Category display method.
-* Simple settings.
-
-### Fix
-* Optimized category get_absolute_url method.
-* Optimized category url_puth method.
-* Optimized category save method.
-* Remove category puth method.
-
-<!-- 	цветотон!
-		перешитать цвета
-		#f12459	- оригинальный
-		#ff2266	- ближайший cдвоеный
-		#FF3366	- http://www.artlebedev.ru/tools/colors/ безопасные цвета -->

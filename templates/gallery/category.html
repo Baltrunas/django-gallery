@@ -1,12 +1,20 @@
 {% extends 'base.html' %}
 
+{% load i18n %}
+
 {% block content %}
-	<h1 class='b-gallery-category__title'>
-		{% if seo.header %}{{ seo.header }}{% else %}{{ header }}{% endif %}
-	</h1>
+	{# <div class="b-wrapper"> #}
+		<h1>{% firstof seo.header header %}</h1>
 
-	{% include 'gallery/__blocks/categories-list.html' %}
+		{% if category.get_public and category.get_childs %}
+			<h2>{% trans "Categories" %}</h2>
+		{% endif %}
+		{% include 'gallery/__blocks/categories-list.html' with categories=category.get_childs %}
 
-	{% include 'gallery/__blocks/items-list.html' %}
 
+		{% if category.get_public and category.get_childs %}
+			<h2>{% trans "Images" %}</h2>
+		{% endif %}
+		{% include 'gallery/__blocks/items-list.html' with items=category.get_public %}
+	{# </div> #}
 {% endblock %}

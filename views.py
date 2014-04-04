@@ -26,11 +26,12 @@ def category_list(request):
 
 def category_detail(request, url, page=0):
 	category = get_object_or_404(Category, url=url)
-	categories = Category.objects.filter(parent=category.pk, public=True, special=False).order_by('order')
-	items = Item.objects.filter(public=True, category=category.pk).order_by('order')
+	# categories = Category.objects.filter(parent=category.pk, public=True, special=False).order_by('order')
+	# items = Item.objects.filter(public=True, category=category.pk).order_by('order')
 
-	context['categories'] = categories
-	context['items'] = items
+	# context['categories'] = categories
+	# context['items'] = items
+	context['category'] = category
 	context['title'] = category.name
 	context['header'] = category.name
 	return render_to_response('gallery/category.html', context, context_instance=RequestContext(request))

@@ -1,31 +1,32 @@
-{% load i18n %}
 {% load thumbnail %}
 
-{% if item %}
-	<figure class='b-gallery-item-detail'>
-		<figcaption class='m-{{ item.item_type }}'>
-			<h1>{{ item.name }}</h1>
-		</figcaption>
+<figure class='b-gallery-detail'>
 
-		{% if item.item_type == 'image' %}
-			{% thumbnail item.item_file "x960" as im %}
-				<img src="{{ im.url }}" alt="{{ image.name }}" width='960'>
-			{% endthumbnail %}
-		{% else %}
-			<embed
-				src="/static/gallery/gddflvplayer.swf"
-				flashvars="?&autoplay=false&sound=70&buffer=2&vdo={{ item.item_file.url }}"
-				width="960"
-				height="640"
-				allowFullScreen="true"
-				quality="best"
-				wmode="transparent"
-				allowScriptAccess="always"
-				pluginspage="http://www.macromedia.com/go/getflashplayer"
-				type="application/x-shockwave-flash"
-			>
-			</embed>
-		{% endif %}
-	</figure>
-	<p>{{ item.description|safe }}</p>
-{% endif %}
+	{% if item.item_type == 'image' %}
+		{% thumbnail item.item_file "x960" as im %}
+			<img src="{{ im.url }}" alt="{{ image.name }}" class='b-gallery-detail__img'>
+		{% endthumbnail %}
+	{% else %}
+		<embed
+			src="/static/gallery/gddflvplayer.swf"
+			flashvars="?&autoplay=false&sound=70&buffer=2&vdo={{ item.item_file.url }}"
+			width="960"
+			height="640"
+			allowFullScreen="true"
+			quality="best"
+			wmode="transparent"
+			allowScriptAccess="always"
+			pluginspage="http://www.macromedia.com/go/getflashplayer"
+			type="application/x-shockwave-flash"
+		>
+		</embed>
+	{% endif %}
+	<figcaption class='m-{{ item.item_type }}' class='b-gallery-detail__title'>
+		{{ item.name }}
+	</figcaption>
+
+</figure>
+
+<div class='b-gallery-detail__description'>
+	{{ item.description|safe }}
+</div>
