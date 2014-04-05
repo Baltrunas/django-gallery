@@ -26,11 +26,6 @@ def category_list(request):
 
 def category_detail(request, url, page=0):
 	category = get_object_or_404(Category, url=url)
-	# categories = Category.objects.filter(parent=category.pk, public=True, special=False).order_by('order')
-	# items = Item.objects.filter(public=True, category=category.pk).order_by('order')
-
-	# context['categories'] = categories
-	# context['items'] = items
 	context['category'] = category
 	context['title'] = category.name
 	context['header'] = category.name
@@ -38,6 +33,6 @@ def category_detail(request, url, page=0):
 
 
 def item_detail(request, url, id):
-	context['item'] = get_object_or_404(Item, id=id)
+	context['item'] = get_object_or_404(Item, category__url=url, id=id)
 	context['title'] = context['item'].name
 	return render_to_response('gallery/item.html', context, context_instance=RequestContext(request))
