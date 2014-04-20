@@ -100,7 +100,7 @@ class Item(models.Model):
 		else:
 			file_folder = instance.item_type
 
-		puth = 'gallery/%s/' % file_folder
+		puth = 'gallery/%s/%s' % (file_folder, filename)
 		return puth
 
 	item_file = models.FileField(verbose_name=_('File'), upload_to=upload_to)
