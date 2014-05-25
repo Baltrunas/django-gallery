@@ -1,0 +1,62 @@
+{% load thumbnail %}
+
+<div class='m-{{ category.slug }} m-slideshow'>
+
+	<h3 class='b-gallery__title'>{{ category.name }}</h3>​
+
+	{% thumbnail category.img '650x350' crop='center' as im %}
+		<img class='b-gallery__cover' src='{{ im.url }}'>
+		<a href="{{ category.img.url }}" class='b-gallery__cover_download'>Скачать</a>
+	{% endthumbnail %}
+
+	<div class='b-slideshow'>
+		{% for item in items %}
+			<a href="{% thumbnail item.item_file '650x350' crop='center' as im %}{{ im.url }}{% endthumbnail %}"
+
+title='{{ item.name }}'
+data-img_url='{{ item.item_file.url }}'
+{# style=' #}
+{# display: block; #}
+{# {% if category.width %}width: {{ category.width }}px;{% endif %} #}
+{# {% if category.height %}height: {{ category.height }}px;{% endif %}' #}
+			>
+				<img src="{% thumbnail item.item_file category.size crop='center' as im %}{{ im.url }}{% endthumbnail %}">
+			</a>
+		{% endfor %}
+	</div>
+
+	{# <div class="b-category__description"> #}
+		{# {{ category.description|safe }} #}
+	{# </div> #}
+	{% if category.description %}
+		<a href="{{ category.get_absolute_url }}" class="b-category__description" style='display: block;'>Подробнее</a>
+	{% endif %}
+
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$('.m-{{ category.slug }} .b-slideshow a').on('click', function(){
+			var src = $(this).attr('href');
+			var alt = $(this).attr('title');
+			var img_url = $(this).data('img_url');
+			$('.m-{{ category.slug }} .b-gallery__cover').attr({
+				src: src,
+				alt: alt
+			});
+			$('.m-{{ category.slug }} .b-gallery__cover_download').attr({
+				href: img_url
+			});
+			return false;
+		});
+
+		$('.m-{{ category.slug }} .b-slideshow').addClass('multiple');
+		$('.m-{{ category.slug }} .b-slideshow').bxSlider({
+			minSlides: 3,
+			maxSlides: 4,
+			slideMargin: 20,
+			slideWidth: 150,
+			moveSlides: 2,
+		});
+
+	});
+	</script>
+</div>

@@ -18,6 +18,7 @@ def category_list(request):
 	items = Item.objects.filter(public=True, category=None).order_by('order')
 
 	context['categories'] = categories
+	context['category'] = {'get_childs': categories}
 	context['items'] = items
 	context['title'] = _('Gallery')
 	context['header'] = _('Gallery')

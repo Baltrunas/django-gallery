@@ -1,0 +1,18 @@
+{% load thumbnail %}
+
+{% include "gallery/__blocks/items-list.html" %}
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+	$('.m-{{ category.slug }} .b-gallery-items').addClass('multiple');
+	$('.m-{{ category.slug }} .b-gallery-items').bxSlider({
+		minSlides: 3,
+		maxSlides: 4,
+		slideMargin: 40,
+		slideWidth: {{ category.width }},
+		moveSlides: 2,
+	});
+
+});
+</script>
