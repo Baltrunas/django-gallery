@@ -26,8 +26,8 @@ class Category(models.Model):
 	height = models.PositiveIntegerField(verbose_name=_('Height'), null=True, blank=True)
 
 
-	special = models.BooleanField(verbose_name=_('Special'))
-	main = models.BooleanField(verbose_name=_('Main'))
+	special = models.BooleanField(verbose_name=_('Special'), default=False)
+	main = models.BooleanField(verbose_name=_('Main'), default=False)
 
 	public = models.BooleanField(verbose_name=_('Public'), default=True)
 	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
@@ -108,7 +108,7 @@ class Item(models.Model):
 	description = models.TextField(verbose_name=_('Description'), blank=True)
 	order = models.PositiveSmallIntegerField(verbose_name=_('Order'), default=500, null=True, blank=True)
 
-	main = models.BooleanField(verbose_name=_('Main'))
+	main = models.BooleanField(verbose_name=_('Main'), default=False)
 
 	public = models.BooleanField(verbose_name=_('Public'), default=True)
 	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
