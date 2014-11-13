@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*
 from django.contrib import admin
 
-from gallery.models import Category
-from gallery.models import Item
+from .models import Category
+from .models import Item
 
 
 class ItemInline(admin.TabularInline):
