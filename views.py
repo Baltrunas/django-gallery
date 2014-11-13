@@ -2,8 +2,8 @@
 from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
 
-from gallery.models import Category
-from gallery.models import Item
+from .models import Category
+from .models import Item
 
 from django.template import RequestContext
 
