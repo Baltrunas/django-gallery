@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*
 from django import template
 register = template.Library()
 from django.shortcuts import get_object_or_404
 
-from gallery.models import Category
-from gallery.models import Item
+from ..models import Category
+from ..models import Item
 
 
 @register.simple_tag()
