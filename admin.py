@@ -10,18 +10,18 @@ class ItemInline(admin.TabularInline):
 
 
 class CategoryAdmin(admin.ModelAdmin):
-	list_display = ['display', 'slug', 'order', 'main', 'public']
+	list_display = ['display', 'slug', 'order', 'public']
 	search_fields = ['img', 'name', 'url', 'public']
-	list_editable = ['order', 'main', 'public']
+	list_editable = ['order', 'public']
 	inlines = [ItemInline]
 
 admin.site.register(Category, CategoryAdmin)
 
 
 class ItemAdmin(admin.ModelAdmin):
-	list_display = ['name', 'order', 'public', 'main', 'category']
-	search_fields = ['name', 'order', 'public', 'main', 'category']
-	list_editable = ['order', 'public', 'main', 'category']
-	list_filter = ['category', 'public', 'main']
+	list_display = ['name', 'order', 'public', 'category']
+	search_fields = ['name', 'order', 'public', 'category']
+	list_editable = ['order', 'public', 'category']
+	list_filter = ['category', 'public']
 
 admin.site.register(Item, ItemAdmin)

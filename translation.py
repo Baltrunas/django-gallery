@@ -1,20 +1,17 @@
-# -*- coding: utf-8 -*-
-# Model Translation
 from modeltranslation.translator import translator
 from modeltranslation.translator import TranslationOptions
 
-# Models
 from .models import Category
 from .models import Item
 
 
-class CategoryTranslationOptions(TranslationOptions):
+class CategoryTranslation(TranslationOptions):
 	fields = ['name', 'description']
 
-translator.register(Category, CategoryTranslationOptions)
+translator.register(Category, CategoryTranslation)
 
 
-class ItemTranslationOptions(TranslationOptions):
+class ItemTranslation(TranslationOptions):
 	fields = ['name', 'description']
 
-translator.register(Item, ItemTranslationOptions)
+translator.register(Item, ItemTranslation)

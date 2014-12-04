@@ -1,54 +1,29 @@
 # django-gallery
-Images gallery for django.
+Sumple gallery for django.
 
-# Required
+## Required
 * sorl.thumbnail
 * jQuery
 
-# Install
-* Add 'gallery', to INSTALLED_APPS
-* url(r'^gallery/', include('gallery.urls')),
+## Install
+* Copy gallery to apps
+* Add 'apps.gallery', to INSTALLED_APPS
+* url(r'^gallery/', include('apps.gallery.urls')),
 * ./manage.py syncdb
 
-```html
+## Use tags
+```
+{% load gallery %}
+{% gallery 1 %}
 ```
 
-# Use tags
-```
-{% load gallery_tags %}
-{% gallery_category 1 %}
-{% gallery_image 1 %}
-```
-
-# Plan
-	Шаблоны
-		Слайдеры
-		Одно изображение
-		HTML 5
-
-	Добавить к изображениям технические данные
-		дата снимка
-		дата обрабоки
-		диафрагма
-		выдержка
-		фокусное растояние
-		исо
-		камера
-	- Настройка указания заголовков и хлебных крошек?
-	- Add image_preview
-
-	В галлереи конечным является изображение
-	В портфолио конечным является проект, который может содержать несколько изображений...
-
-Если высота больше обрезка по верху
-Количество просмотра для фото, галлереи, всех изображений в галлереи
-Свойства и параметры через модель
-
-# Futures
+## To Do
 * New templates
 * Optimization
 * Custom template for templatetags
-* README.md
 * recreate thumb
 * default from settings
 * image filter
+* HTML 5
+* Preview
+* Если высота больше ширины, обрезать по верху

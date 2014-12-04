@@ -2,23 +2,26 @@
 
 {% load i18n %}
 
+
 {% block content %}
-	<div class="b-wrapper">
-		<h1>{% firstof seo.header header %}</h1>
 
-		{% if category.get_public and category.get_childs %}
-			<h2>{% trans "Categories" %}</h2>
-		{% endif %}
-		{% include 'gallery/__blocks/categories-list.html' with categories=category.get_childs %}
+	<h1>{% firstof seo.header header %}</h1>
+
+	{% if category.get_public and category.get_childs %}
+		<h2>{% trans "Categories" %}</h2>
+	{% endif %}
+
+	{% include 'gallery/__blocks/categories-list.html' with categories=category.get_childs %}
 
 
-		{% if category.get_public and category.get_childs %}
-			<h2>{% trans "Images" %}</h2>
-		{% endif %}
-		{% include 'gallery/__blocks/items-list.html' with items=category.get_public %}
+	{% if category.get_public and category.get_childs %}
+		<h2>{% trans "Images" %}</h2>
+	{% endif %}
 
-		{% if category.description %}
-			{{ category.description|safe }}
-		{% endif %}
-	</div>
+	{% include 'gallery/__blocks/items-list.html' with items=category.get_public %}
+
+	{# {% if category.description %} #}
+		{{ category.description|safe }}
+	{# {% endif %} #}
+
 {% endblock %}
