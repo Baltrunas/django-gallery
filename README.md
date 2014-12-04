@@ -18,12 +18,7 @@ Sumple gallery for django.
 ```
 
 ## To Do
-* New templates
+* New HTML 5 templates
 * Optimization
-* Custom template for templatetags
-* recreate thumb
-* default from settings
-* image filter
-* HTML 5
 * Preview
 * Если высота больше ширины, обрезать по верху
