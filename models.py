@@ -50,7 +50,7 @@ class Category(models.Model):
 	def get_childs(self):
 		return self.childs.filter(public=True, special=False)
 
-	def get_public(self):
+	def get_items(self):
 		return self.items.filter(public=True)
 
 	def size(self):
@@ -58,7 +58,7 @@ class Category(models.Model):
 			return '%sx%s' % (self.width, self.height)
 		elif self.width:
 			return '%s' % (self.width)
-		elif self.width and self.height:
+		elif self.height:
 			return 'x%s' % (self.height)
 		else:
 			return ''

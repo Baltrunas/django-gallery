@@ -10,18 +10,18 @@
 	{% if category.get_public and category.get_childs %}
 		<h2>{% trans "Categories" %}</h2>
 	{% endif %}
-
-	{% include 'gallery/__blocks/categories-list.html' with categories=category.get_childs %}
+	{% include 'gallery/__blocks/categories-list.html' %}
 
 
 	{% if category.get_public and category.get_childs %}
 		<h2>{% trans "Images" %}</h2>
 	{% endif %}
+	{% include 'gallery/__blocks/items-list.html' %}
 
-	{% include 'gallery/__blocks/items-list.html' with items=category.get_public %}
-
-	{# {% if category.description %} #}
-		{{ category.description|safe }}
-	{# {% endif %} #}
+	{% if category.description %}
+		<div class='b-gallery_category__description'>
+			{{ category.description|safe }}
+		</div>
+	{% endif %}
 
 {% endblock %}
