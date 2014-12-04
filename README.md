@@ -19,6 +19,8 @@ Sumple gallery for django.
 
 ## To Do
 * New HTML 5 templates
-* Если высота больше ширины, обрезать по верху
+	* items-list.html
+	* category-carousel.html
+	* category-slideshow.html
 * Preview in admin
 * Optimize models

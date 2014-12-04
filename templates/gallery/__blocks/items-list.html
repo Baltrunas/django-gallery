@@ -11,15 +11,15 @@
 
 	{% if item.item_type == 'image' %}
 		<a href='{{ item.item_file.url }}' class='b-gallery-item__zoom_link' rel='m-{{ category.slug }}'>
-			{# {% if item.item_file|is_portrait %} #}
-				{# {% thumbnail item.item_file size as im %} #}
-					{# <img src="{{ im.url }}" alt="{{ item.name }}" class='b-gallery-item__img' style="padding:{{ im|margin:size }}"> #}
-				{# {% endthumbnail %} #}
-			{# {% else %} #}
+			{% if item.item_file|is_portrait %}
+				{% thumbnail item.item_file category.size crop="top" as im %}
+					<img src="{{ im.url }}" alt="{{ item.name }}" class='b-gallery-item__img' style="padding:{{ im|margin:category.size }}">
+				{% endthumbnail %}
+			{% else %}
 				{% thumbnail item.item_file category.size crop="center" as im %}
 					<img src="{{ im.url }}" alt="{{ item.name }}" class='b-gallery-item__img'>
 				{% endthumbnail %}
-			{# {% endif %} #}
+			{% endif %}
 		</a>
 	{% else %}
 		<embed

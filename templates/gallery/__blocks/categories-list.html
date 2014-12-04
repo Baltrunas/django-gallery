@@ -1,16 +1,28 @@
 {% load thumbnail %}
 
+{% if categories %}
+
 <div class='b-gallery-categories'>
-{% for category in categories %}
 
-<figure class='b-gallery-category'>
-	<a href='{{ category.get_absolute_url }}' class='b-gallery-category__link'>
-		{% thumbnail category.img "300x200" crop="top" as im %}
-			<img src="{{ im.url }}" alt="{{ category.name }}" class='b-gallery-category__img'>
-		{% endthumbnail %}
-		<figcaption class='b-gallery-category__caption'>{{ category.name }}</figcaption>
-	</a>
-</figure>
+	{% for category in categories %}
 
-{% endfor %}
-</div>
+		<figure class='b-gallery-category'>
+			<a href='{{ category.get_absolute_url }}' class='b-gallery-category__link'>
+				{% if category.img|is_portrait %}
+					{% thumbnail category.img category.size crop='top' as im %}
+						<img src='{{ im.url }}' alt='{{ category.name }}' class='b-gallery-category__img'>
+					{% endthumbnail %}
+				{% else %}
+					{% thumbnail category.img category.size crop='center' as im %}
+						<img src='{{ im.url }}' alt='{{ category.name }}' class='b-gallery-category__img'>
+					{% endthumbnail %}
+				{% endif %}
+				<figcaption class='b-gallery-category__caption'>{{ category.name }}</figcaption>
+			</a>
+		</figure><!-- b-gallery-category -->
+
+	{% endfor %}
+
+</div><!-- b-gallery-categories -->
+
+{% endif %}
