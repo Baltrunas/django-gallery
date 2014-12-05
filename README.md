@@ -21,6 +21,5 @@ Sumple gallery for django.
 * New HTML 5 templates
 	* items-list.html
 	* category-carousel.html
-	* category-slideshow.html
 * Preview in admin
 * Optimize models
