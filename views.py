@@ -28,4 +28,11 @@ def category(request, url):
 
 	context['title'] = category.name
 	context['header'] = category.name
-	return render(request, 'gallery/category.html', context)
+
+	if category.template:
+		template = category.template
+	else:
+		template = 'gallery/category.html'
+
+
+	return render(request, template, context)

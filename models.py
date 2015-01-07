@@ -22,6 +22,7 @@ class Category(models.Model):
 	width = models.PositiveIntegerField(verbose_name=_('Width'), null=True, blank=True)
 	height = models.PositiveIntegerField(verbose_name=_('Height'), null=True, blank=True)
 
+	template = models.CharField(verbose_name=_('Template'), max_length=128, null=True, blank=True)
 
 	special = models.BooleanField(verbose_name=_('Special'), default=False)
 
