@@ -1,3 +1,6 @@
+# !!! DEPRECATED !!!
+# Use django-pages
+
 # django-gallery
 Sumple gallery for django.
 
